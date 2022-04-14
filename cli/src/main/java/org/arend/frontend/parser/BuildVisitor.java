@@ -1768,6 +1768,11 @@ public class BuildVisitor extends ArendBaseVisitor<Object> {
         TerminalNode eval = prefixCtx.EVAL();
         if (eval != null) {
           expr = new Concrete.EvalExpression(tokenPosition(eval.getSymbol()), false, expr);
+        } else {
+          TerminalNode box = prefixCtx.BOX();
+          if (box != null) {
+            expr = new Concrete.BoxExpression(tokenPosition(box.getSymbol()), expr);
+          }
         }
       }
 
@@ -1884,7 +1889,8 @@ public class BuildVisitor extends ArendBaseVisitor<Object> {
     Concrete.Expression result = new Concrete.CaseExpression(tokenPosition(ctx.start), ctx.SCASE() != null, caseArgs, returnPair.proj1, returnPair.proj2, clauses);
     boolean isPEval = ctx.PEVAL() != null;
     boolean isEval = !isPEval && ctx.EVAL() != null;
-    return isPEval || isEval ? new Concrete.EvalExpression(result.getData(), isPEval, result) : result;
+    TerminalNode box = ctx.BOX();
+    return isPEval || isEval ? new Concrete.EvalExpression(result.getData(), isPEval, result) : box != null ? new Concrete.BoxExpression(tokenPosition(box.getSymbol()), result) : result;
   }
 
   @Override

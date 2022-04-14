@@ -187,18 +187,20 @@ public class ConcreteCompareVisitor implements ConcreteExpressionVisitor<Concret
       return false;
     }
 
-    if ((pattern1.getAsReferable() == null) != (pattern2.getAsReferable() == null)) {
+    Concrete.TypedReferable asRef1 = pattern1.getAsReferable();
+    Concrete.TypedReferable asRef2 = pattern2.getAsReferable();
+    if ((asRef1 == null) != (asRef2 == null)) {
       return false;
     }
-    if (pattern1.getAsReferable() != null) {
-      if (!compare(pattern1.getAsReferable().type, pattern2.getAsReferable().type)) {
+    if (asRef1 != null) {
+      if (!compare(asRef1.type, asRef2.type)) {
         return false;
       }
-      if ((pattern1.getAsReferable().referable == null) != (pattern2.getAsReferable().referable == null)) {
+      if ((asRef1.referable == null) != (asRef2.referable == null)) {
         return false;
       }
-      if (pattern1.getAsReferable().referable != null) {
-        mySubstitution.put(pattern1.getAsReferable().referable, pattern2.getAsReferable().referable);
+      if (asRef1.referable != null) {
+        mySubstitution.put(asRef1.referable, asRef2.referable);
       }
     }
 
@@ -307,6 +309,11 @@ public class ConcreteCompareVisitor implements ConcreteExpressionVisitor<Concret
     }
     Concrete.EvalExpression eval2 = (Concrete.EvalExpression) expr2;
     return expr.isPEval() == eval2.isPEval() && compare(expr.getExpression(), eval2.getExpression());
+  }
+
+  @Override
+  public Boolean visitBox(Concrete.BoxExpression expr, Concrete.Expression expr2) {
+    return expr2 instanceof Concrete.BoxExpression && compare(expr.getExpression(), ((Concrete.BoxExpression) expr2).getExpression());
   }
 
   @Override

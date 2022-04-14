@@ -531,6 +531,19 @@ public class CoreExpressionChecker implements ExpressionVisitor<Expression, Expr
   }
 
   @Override
+  public Expression visitBox(BoxExpression expr, Expression params) {
+    Expression type = expr.getExpression().getType();
+    Sort sort = type.getSortOfType();
+    if (sort == null) {
+      throw new CoreException(CoreErrorWrapper.make(new TypecheckingError("Cannot infer the sort of the type of the expression", mySourceNode), expr.getExpression()));
+    }
+    if (!sort.isProp()) {
+      throw new CoreException(CoreErrorWrapper.make(new TypecheckingError("The type of the expression is not a proposition", mySourceNode), expr.getExpression()));
+    }
+    return type;
+  }
+
+  @Override
   public Expression visitLet(LetExpression expr, Expression expectedType) {
     for (HaveClause clause : expr.getClauses()) {
       clause.getExpression().accept(this, null);

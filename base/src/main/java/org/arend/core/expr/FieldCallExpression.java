@@ -122,6 +122,6 @@ public class FieldCallExpression extends DefCallExpression implements CoreFieldC
 
   @Override
   public Expression getStuckExpression() {
-    return myArgument.getStuckExpression();
+    return getDefinition().isProperty() ? null : myArgument.getStuckExpression();
   }
 }

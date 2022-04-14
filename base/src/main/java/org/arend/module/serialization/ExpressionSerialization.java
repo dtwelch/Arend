@@ -534,6 +534,13 @@ class ExpressionSerialization implements ExpressionVisitor<Void, ExpressionProto
   }
 
   @Override
+  public ExpressionProtos.Expression visitBox(BoxExpression expr, Void params) {
+    ExpressionProtos.Expression.Box.Builder builder = ExpressionProtos.Expression.Box.newBuilder();
+    builder.setExpression(expr.getExpression().accept(this, null));
+    return ExpressionProtos.Expression.newBuilder().setBox(builder).build();
+  }
+
+  @Override
   public ExpressionProtos.Expression visitLet(LetExpression letExpression, Void params) {
     ExpressionProtos.Expression.Let.Builder builder = ExpressionProtos.Expression.Let.newBuilder();
     builder.setIsStrict(letExpression.isStrict());

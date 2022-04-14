@@ -83,7 +83,6 @@ public abstract class Expression implements Body, CoreExpression {
     ErrorExpression errorExpr = cast(ErrorExpression.class);
     return errorExpr != null && errorExpr.isError();
   }
-
   @Override
   public boolean reportIfError(@NotNull ErrorReporter errorReporter, @Nullable ConcreteSourceNode marker) {
     ErrorExpression errorExpr = cast(ErrorExpression.class);

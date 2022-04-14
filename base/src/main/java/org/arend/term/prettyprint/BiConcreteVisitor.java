@@ -105,7 +105,7 @@ public abstract class BiConcreteVisitor extends BaseConcreteExpressionVisitor<Co
 
     @Override
     public Concrete.Expression visitUniverse(Concrete.UniverseExpression expr, Concrete.SourceNode params) {
-        return (Concrete.Expression) myFactory.universe(expr.getPLevel(), expr.getHLevel());
+        return myFactory.universe(expr.getPLevel(), expr.getHLevel());
     }
 
     @Override
@@ -252,6 +252,11 @@ public abstract class BiConcreteVisitor extends BaseConcreteExpressionVisitor<Co
     @Override
     public Concrete.Expression visitEval(Concrete.EvalExpression expr, Concrete.SourceNode params) {
         return new Concrete.EvalExpression(expr.getData(), expr.isPEval(), expr.getExpression().accept(this, ((Concrete.EvalExpression)params).getExpression()));
+    }
+
+    @Override
+    public Concrete.Expression visitBox(Concrete.BoxExpression expr, Concrete.SourceNode params) {
+        return new Concrete.BoxExpression(expr.getData(), expr.getExpression().accept(this, ((Concrete.BoxExpression)params).getExpression()));
     }
 
     @Override

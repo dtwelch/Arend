@@ -750,6 +750,11 @@ public class ToAbstractVisitor extends BaseExpressionVisitor<Void, Concrete.Expr
     return cEval(true, expr.getExpression().accept(this, null));
   }
 
+  @Override
+  public Concrete.Expression visitBox(BoxExpression expr, Void params) {
+    return new Concrete.BoxExpression(null, expr.getExpression().accept(this, null));
+  }
+
   private Concrete.Pattern makeLetClausePattern(LetClausePattern pattern) {
     if (pattern == null) return null;
     if (pattern.getName() != null) {

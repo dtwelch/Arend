@@ -247,6 +247,11 @@ public class SubstVisitor extends ExpressionTransformer<Void> {
   }
 
   @Override
+  public Expression visitBox(BoxExpression expr, Void params) {
+    return new BoxExpression(expr.getExpression().accept(this, null));
+  }
+
+  @Override
   public Expression visitLet(LetExpression letExpression, Void params) {
     List<HaveClause> clauses = new ArrayList<>(letExpression.getClauses().size());
     for (HaveClause clause : letExpression.getClauses()) {

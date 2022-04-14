@@ -3837,4 +3837,16 @@ public class CheckTypeVisitor extends UserDataHolderImpl implements ConcreteExpr
     args.add(normExpr);
     return checkResult(expectedType, new TypecheckingResult(pEvalResult, FunCallExpression.make(Prelude.PATH_INFIX, new LevelPair(sort.getPLevel(), sort.getHLevel()), args)), expr);
   }
+
+  @Override
+  public TypecheckingResult visitBox(Concrete.BoxExpression expr, Expression type) {
+    TypecheckingResult result = expr.getExpression().accept(this, type);
+    Sort sort = result.type.getSortOfType();
+    if (sort == null || !sort.isProp()) {
+      errorReporter.report(new TypecheckingError("The type of the expression has sort " + sort + ", but should be a proposition", expr));
+      return result;
+    } else {
+      return new TypecheckingResult(new BoxExpression(result.expression), result.type);
+    }
+  }
 }

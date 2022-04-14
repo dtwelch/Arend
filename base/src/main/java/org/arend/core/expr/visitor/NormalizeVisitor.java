@@ -1128,4 +1128,9 @@ public class NormalizeVisitor extends ExpressionTransformer<NormalizationMode>  
   public Expression visitPEval(PEvalExpression expr, NormalizationMode mode) {
     return mode == NormalizationMode.WHNF ? expr : new PEvalExpression(expr.getExpression().accept(this, mode));
   }
+
+  @Override
+  public Expression visitBox(BoxExpression expr, NormalizationMode mode) {
+    return mode == NormalizationMode.WHNF ? expr : new BoxExpression(expr.getExpression().accept(this, mode));
+  }
 }

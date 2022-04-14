@@ -251,6 +251,12 @@ public class VoidConcreteVisitor<P, R> implements ConcreteExpressionVisitor<P,Vo
   }
 
   @Override
+  public Void visitBox(Concrete.BoxExpression expr, P params) {
+    expr.getExpression().accept(this, params);
+    return null;
+  }
+
+  @Override
   public Void visitProj(Concrete.ProjExpression expr, P params) {
     expr.getExpression().accept(this, params);
     return null;

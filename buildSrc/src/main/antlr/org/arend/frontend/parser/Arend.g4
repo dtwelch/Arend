@@ -166,11 +166,11 @@ lamParam : nameTele     # lamTele
 
 lamExpr : '\\lam' lamParam+ ('=>' expr?)?;
 
-caseExpr : (EVAL | PEVAL)? (CASE | SCASE) caseArg (',' caseArg)* ('\\return' returnExpr2)? withBody?;
+caseExpr : (EVAL | PEVAL | BOX)? (CASE | SCASE) caseArg (',' caseArg)* ('\\return' returnExpr2)? withBody?;
 
 withBody : '\\with' '{' clause? ('|' clause)* '}';
 
-appPrefix : NEW EVAL? | EVAL | PEVAL;
+appPrefix : NEW EVAL? | EVAL | PEVAL | BOX;
 
 caseArg : caseArgExprAs (':' expr2)?;
 
@@ -315,6 +315,7 @@ HAVES : '\\have!';
 STRICT : '\\strict';
 EVAL : '\\eval';
 PEVAL : '\\peval';
+BOX : '\\box';
 CASE : '\\case';
 SCASE : '\\scase';
 COMMA : ',';
