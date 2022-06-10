@@ -79,8 +79,11 @@ public class GeneralError {
   }
 
   public final Doc getDoc(PrettyPrinterConfig ppConfig) {
+    Doc headerDoc = getHeaderDoc(ppConfig);
+    Doc bodyDoc = getBodyDoc(ppConfig);
     Doc causeDoc = getCauseDoc(ppConfig);
-    return vHang(getHeaderDoc(ppConfig), getBodyDoc(ppConfig), causeDoc == null ? nullDoc() : hang(text("In:"), causeDoc));
+    Doc resultDoc = vHang(headerDoc, bodyDoc, causeDoc == null ? nullDoc() : hang(text("In:"), causeDoc));
+    return resultDoc;
   }
 
   @Override
