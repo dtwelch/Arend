@@ -46,15 +46,16 @@ public class BasicRunTest {
         preludeLibrary.addFlag(SourceLibrary.Flag.RECOMPILE);
 
         // NOTE (Dtw): loadLibrary does not initialize the consts from prelude
-        //  in the Prelude class. You have to call typecheckLibrary.
-        //  The static fields like Prelude.ARRAY reference 'core' abstract syntax
+        //  in the InitialCC/Prelude class. You have to call typecheckLibrary.
+        //  The static fields like InitialCC.ARRAY reference 'core' abstract syntax
         //  Definition objects
         //  (i.e.: typechecked definitions) -- loading doesn't do this
         //  (again, have to call typecheckLibrary on the succesfully loaded library)
-        // Q: what happens if I comment out the stmt below and just call typeCheck library anyways?
-        // A: it fails (scope will be unintialized as the raw structure wasn't
-        // loaded into memory -- either from a file or a binary stream, e.g.,
-        // from an existing .arc file)
+        // Q: so what happens if I comment out the libMgr.loadLibrary(..) stmt
+        //      and just call typeCheck library anyways?
+        // A: it fails (scope will be uninitialized as the raw structure wasn't
+        //      loaded into memory -- either from a file or a binary stream, e.g.,
+        //      from an existing .arc file)
        // libraryManager.loadLibrary(preludeLibrary, null);
 
         new Prelude.PreludeTypechecking(new InstanceProviderSet(),
