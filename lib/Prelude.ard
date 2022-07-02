@@ -93,3 +93,5 @@
     | 0 => a
     | suc j => l j
   }
+
+\func x : Nat => 0

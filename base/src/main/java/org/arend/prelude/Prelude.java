@@ -96,6 +96,9 @@ public class Prelude implements ArendPrelude {
 
   public static void update(Definition definition) {
     switch (definition.getReferable().textRepresentation()) {
+      case "x":
+        int m = 0;
+        break;
       case "Nat":
         NAT = (DataDefinition) definition;
         ZERO = NAT.getConstructor("zero");
@@ -315,7 +318,8 @@ public class Prelude implements ArendPrelude {
 
   public static class PreludeTypechecking extends TypecheckingOrderingListener {
     public PreludeTypechecking(InstanceProviderSet instanceProviderSet, ConcreteProvider concreteProvider, ReferableConverter referableConverter, PartialComparator<TCDefReferable> comparator) {
-      super(instanceProviderSet, concreteProvider, referableConverter, DummyErrorReporter.INSTANCE, comparator, ref -> null);
+      super(instanceProviderSet, concreteProvider, referableConverter,
+              DummyErrorReporter.INSTANCE, comparator, ref -> null);
     }
 
     @Override

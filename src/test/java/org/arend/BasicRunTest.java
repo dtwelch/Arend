@@ -10,8 +10,10 @@ import org.arend.frontend.PositionComparator;
 import org.arend.frontend.library.PreludeFileLibrary;
 import org.arend.library.Library;
 import org.arend.library.LibraryManager;
+import org.arend.library.SourceLibrary;
 import org.arend.module.scopeprovider.ModuleScopeProvider;
 import org.arend.naming.reference.converter.IdReferableConverter;
+import org.arend.prelude.Prelude;
 import org.arend.typechecking.instance.provider.InstanceProviderSet;
 import org.arend.typechecking.order.listener.TypecheckingOrderingListener;
 import org.junit.Test;
@@ -40,8 +42,27 @@ public class BasicRunTest {
                 errorReporter,
                 errorReporter,
                 DefinitionRequester.INSTANCE, null);
-        Library preludeLibrary = new PreludeFileLibrary(null);
-        libraryManager.loadLibrary(preludeLibrary, null);
+        SourceLibrary preludeLibrary = new PreludeFileLibrary(null);
+        preludeLibrary.addFlag(SourceLibrary.Flag.RECOMPILE);
+
+        // NOTE (Dtw): loadLibrary does not initialize the consts from prelude
+        //  in the Prelude class. You have to call typecheckLibrary.
+        //  The static fields like Prelude.ARRAY reference 'core' abstract syntax
+        //  Definition objects
+        //  (i.e.: typechecked definitions) -- loading doesn't do this
+        //  (again, have to call typecheckLibrary on the succesfully loaded library)
+        // Q: what happens if I comment out the stmt below and just call typeCheck library anyways?
+        // A: it fails (scope will be unintialized as the raw structure wasn't
+        // loaded into memory -- either from a file or a binary stream, e.g.,
+        // from an existing .arc file)
+       // libraryManager.loadLibrary(preludeLibrary, null);
+
+        new Prelude.PreludeTypechecking(new InstanceProviderSet(),
+                ConcreteReferableProvider.INSTANCE,
+                IdReferableConverter.INSTANCE,
+                PositionComparator.INSTANCE).typecheckLibrary(preludeLibrary);
+
+        Object x = Prelude.ARRAY;
 
         for (GeneralError err : errorReporter.getErrorList()) {
             Doc d = err.getDoc(PrettyPrinterConfig.DEFAULT);
