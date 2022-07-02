@@ -57,6 +57,7 @@ public class InstanceProviderSet {
       if (ref instanceof LocatedReferable) {
         TCReferable instance = referableConverter.toDataLocatedReferable((LocatedReferable) ref);
         if (instance instanceof TCDefReferable && instance.getKind() == GlobalReferable.Kind.INSTANCE) {
+          System.out.println("FOUND AN INSTANCE DAWG");
           if (used) {
             instanceProvider = new SimpleInstanceProvider(instanceProvider);
             used = false;
