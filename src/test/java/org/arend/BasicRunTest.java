@@ -65,7 +65,7 @@ public class BasicRunTest {
         // A: it fails (scope will be uninitialized as the raw structure wasn't
         //      loaded into memory -- either from a file or a binary stream, e.g.,
         //      from an existing .arc file)
-       // libraryManager.loadLibrary(preludeLibrary, null);
+        libraryManager.loadLibrary(preludeLibrary, null);
 
         new Prelude.PreludeTypechecking(new InstanceProviderSet(),
                 ConcreteReferableProvider.INSTANCE,
@@ -74,10 +74,10 @@ public class BasicRunTest {
 
         Object x = Prelude.ARRAY;
 
-        for (GeneralError err : errorReporter.getErrorList()) {
+        /*for (GeneralError err : errorReporter.getErrorList()) {
             Doc d = err.getDoc(PrettyPrinterConfig.DEFAULT);
             System.out.println(err);
-        }
+        }*/
         //basicErrorReporter.errors().clear();
     }
 

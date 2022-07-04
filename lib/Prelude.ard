@@ -1,4 +1,4 @@
--- \func I : \Prop => {?}
+
 \data I
   | left
   | right
@@ -96,3 +96,4 @@
   }
 
 \func x : Nat => 0
+\func x : \Prop => {?} -- intentional dup symbol
