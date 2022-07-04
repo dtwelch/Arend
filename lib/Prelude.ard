@@ -1,4 +1,3 @@
-
 \data I
   | left
   | right
@@ -95,5 +94,15 @@
     | suc j => l j
   }
 
-\func x : Nat => 0
-\func x : \Prop => {?} -- intentional dup symbol
+{--
+\data MNat
+\data M
+
+\func g' : M -> MNat => {?}
+
+\func x : M => {?}
+
+\func h' : MNat => g' x -- intentional dup symbol
+
+
+ -}

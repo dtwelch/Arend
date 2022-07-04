@@ -333,6 +333,7 @@ public abstract class BaseCliFrontend {
       return null;
     }
 
+    // Dtw: load prelude (either from binary or raw text format)
     if (!myLibraryManager.loadLibrary(new PreludeResourceLibrary(), null)) {
       return null;
     }
