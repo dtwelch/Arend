@@ -1,3 +1,4 @@
+-- \func I : \Prop => {?}
 \data I
   | left
   | right

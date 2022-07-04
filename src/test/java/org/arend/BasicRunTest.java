@@ -36,6 +36,15 @@ public class BasicRunTest {
                     PositionComparator.INSTANCE, ref -> null);
 
     @Test public void testStartup() {
+
+        // TODO: Note, just run the PreludeBinaryGenerator class in cli while
+        //      playing around w/ prelude.
+        //      Use a run config with args: . --recompile
+        //      Actually, probably fine to keep going in this test method, just
+        //      realize that PreludeBinaryGenerator gets run by gradle (so if
+        //      something fails -- i.e.: prelude has a dup definition,
+        //      the tool won't run and will give a very nonspecific java
+        //      err msg in red)
         LibraryManager libraryManager = new LibraryManager((lib, name) -> {
             throw new IllegalStateException();
         }, new InstanceProviderSet(),
