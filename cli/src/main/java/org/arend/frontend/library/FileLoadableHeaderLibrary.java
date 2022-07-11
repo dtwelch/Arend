@@ -48,7 +48,7 @@ public class FileLoadableHeaderLibrary extends FileSourceLibrary {
       return null;
     }
 
-    if (myLibraryHeader.modules == null) {
+    if (myLibraryHeader.modules == null) { // all to avoid mem from initializing myLibraryHeader.modules?
       myLibraryHeader.modules = new LinkedHashSet<>();
       if (mySourceBasePath != null) {
         FileUtils.getModules(mySourceBasePath, FileUtils.EXTENSION, myLibraryHeader.modules, errorReporter);
