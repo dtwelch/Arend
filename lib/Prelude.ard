@@ -93,6 +93,8 @@
     | 0 => a
     | suc j => l j
   }
+\func x : \Prop => {?}
+--\func x : \Prop => {?}
 
 {--
 \data MNat

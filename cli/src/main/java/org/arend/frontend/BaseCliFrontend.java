@@ -15,6 +15,7 @@ import org.arend.ext.prettyprinting.PrettyPrinterConfig;
 import org.arend.ext.prettyprinting.PrettyPrinterFlag;
 import org.arend.extImpl.DefinitionRequester;
 import org.arend.frontend.library.FileSourceLibrary;
+import org.arend.frontend.library.PreludeFileLibrary;
 import org.arend.frontend.library.TimedLibraryManager;
 import org.arend.frontend.repl.PlainCliRepl;
 import org.arend.frontend.repl.jline.JLineCliRepl;
@@ -334,8 +335,11 @@ public abstract class BaseCliFrontend {
     }
 
     // Dtw: load prelude (either from binary or raw text format)
-    if (!myLibraryManager.loadLibrary(new PreludeResourceLibrary(), null)) {
-      return null;
+    // todo: changed this to PreludeFileLibrary for now (since I don't want to think about serialization yet)
+    //      (use the -r flag active for now too)
+    if (!myLibraryManager.loadLibrary(new PreludeFileLibrary(null), null)) {
+    //if (!myLibraryManager.loadLibrary(new PreludeResourceLibrary(null), null)) {
+        return null;
     }
 
     myLibraryResolver.addLibraryDirectories(libDirs);
@@ -383,7 +387,12 @@ public abstract class BaseCliFrontend {
         Path path = Paths.get(fileName);
         if (!Files.exists(path)) {
           myLibraryManager.getLibraryErrorReporter().report(new GeneralError(GeneralError.Level.ERROR, "File " + path + " not found"));
+
         } else if (fileName.endsWith(FileUtils.LIBRARY_CONFIG_FILE) || isPath && Files.isDirectory(path)) {
+          // ^ if someone runs w/ arg, e.g.:  ./../some-arend-project
+          //    OR: ./../some-arend-project/arend.yaml
+          Path p = path.toAbsolutePath();
+          Path pNormal = p.normalize();
           SourceLibrary library = myLibraryResolver.registerLibrary(path.toAbsolutePath().normalize());
           if (library != null) {
             requestedLibraries.add(library);
